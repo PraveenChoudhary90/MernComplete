@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-
+import axios from "axios"
 
 const Insert = ()=>{
     const [input, setInput] = useState({});
@@ -10,7 +10,7 @@ const Insert = ()=>{
     const handelInput = (e)=>{
         const name = e.target.name;
         const value = e.target.value;
-        setInput(values=>({...value, [name]:value}));
+        setInput(values=>({...values, [name]:value}));
         console.log(input);
     }
 
@@ -22,14 +22,21 @@ const Insert = ()=>{
 
     const handelSubmit = async(e)=>{
         e.preventDefault();
-        const api = "http:localhost:8000/Product/InsertProduct";
+        const api = "http://localhost:8000/Product/InsertProduct";
+
+
         const formData = new FormData();
         for(let key in input){
-            formData.append("name", formData[key])
+            formData.append(key , input[key])
+        }
+        for(let i = 0; i<images.length;i++){
+          formData.append("images", images[i]);
         }
 
-    }
-    
+    const response = await axios.post(api, formData);
+    console.log(response.data);
+    alert("Data save!!!!!!!!!!!!!!!!!");
+      }
     return(
         <>
         <div id="myform">
